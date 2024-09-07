@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passport Template</title>
+  <style>
+    .passport {
+      position: relative;
+      width: 700px;
+      height: auto;
+    }
+    .background {
+      width: 100%;
+      height: auto;
+    }
+    .passport_info {
+      position: absolute;
+      font-size: 24px;
+      color: black;
+    }
+    .surname {
+      top: 540px;
+      left: 350px;
+    }
+    .name {
+      top: 620px;
+      left: 370px;
+    }
+    .patronymic {
+      top: 650px;
+      left: 350px;
+    }
+    .gender {
+      top: 690px;
+      left: 270px;
+    }
+    .birthdate {
+      top: 690px;
+      left: 410px;
+    }
+    .birthplace {
+      top: 730px;
+      left: 300px;
+    }
+    .given {
+      top: 100px;
+      left: 140px;
+    }
+    .date_given {
+      top: 210px;
+      left: 140px;
+    }
+    .code {
+      top: 210px;
+      left: 400px;
+    }
+    .avatar {
+      top: 580px;
+      left: 30px;
+      width: 200px;
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <div class="passport">
+    <img class="background" src="passport_template.jpg" alt="Passport Template">
+    <div class="passport_info surname" id="surname">Бедаков</div>
+    <div class="passport_info name" id="name">Глеб</div>
+    <div class="passport_info patronymic" id="patronymic">Игоревич</div>
+    <div class="passport_info gender" id="gender">муж.</div>
+    <div class="passport_info birthdate" id="birthdate">01.01.1000</div>
+    <div class="passport_info birthplace" id="birthplace">Москва</div>
+    <div class="passport_info given" id="given">ГУ МВД РОССИИ ПО НИЖЕГОРОДСКОЙ ОБЛАСТИ</div>
+    <div class="passport_info date_given" id="date_given">02.02.999</div>
+    <div class="passport_info code" id="code">856-442</div>
+    <img class="passport_info avatar" src="avatar.jpg" alt="Identity Photo">
+  </div>
+  <button onclick="toggleLanguage()">Toggle Language</button>
+
+  <script>
+    const textContent = {
+      russian: {
+        surname: 'Бедаков',
+        name: 'Глеб',
+        patronymic: 'Игоревич',
+        gender: 'муж.',
+        birthdate: '01.01.1000',
+        birthplace: 'Москва',
+        given: 'ГУ МВД РОССИИ ПО НИЖЕГОРОДСКОЙ ОБЛАСТИ',
+        date_given: '02.02.999',
+        code: '856-442',
+      },
+      english: {
+        surname: 'Bedakov',
+        name: 'Gleb',
+        patronymic: 'Igorevich',
+        gender: 'male',
+        birthdate: '01.01.1000',
+        birthplace: 'Moscow',
+        given: 'GU MINISTRY OF INTERNAL AFFAIRS OF RUSSIA IN THE NIZHNY NOVGOROD REGION',
+        date_given: '02.02.999',
+        code: '856-442',
+      }
+    };
+
+    let currentLanguage = 'russian';
+
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'russian' ? 'english' : 'russian';
+      document.getElementById('surname').innerText = textContent[currentLanguage].surname;
+      document.getElementById('name').innerText = textContent[currentLanguage].name;
+      document.getElementById('patronymic').innerText = textContent[currentLanguage].patronymic;
+      document.getElementById('gender').innerText = textContent[currentLanguage].gender;
+      document.getElementById('birthdate').innerText = textContent[currentLanguage].birthdate;
+      document.getElementById('birthplace').innerText = textContent[currentLanguage].birthplace;
+      document.getElementById('given').innerText = textContent[currentLanguage].given;
+      document.getElementById('date_given').innerText = textContent[currentLanguage].date_given;
+      document.getElementById('code').innerText = textContent[currentLanguage].code;
+    }
+  </script>
+</body>
+</html>
