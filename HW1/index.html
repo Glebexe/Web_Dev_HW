@@ -108,7 +108,7 @@
     let currentLanguage = 'russian';
 
     function toggleLanguage() {
-      currentLanguage = currentLanguage === 'russian' ? 'english' : 'russian';
+      currentLanguage = currentLanguage == 'russian' ? 'english' : 'russian';
       document.getElementById('surname').innerText = textContent[currentLanguage].surname;
       document.getElementById('name').innerText = textContent[currentLanguage].name;
       document.getElementById('patronymic').innerText = textContent[currentLanguage].patronymic;
