@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ Прибыли по Товарам</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        textarea, button {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Анализ Прибыли по Товарам</h2>
+        <textarea id="salesData" placeholder="Введите данные о продажах, разделенные новой строкой"></textarea>
+        <button onclick="analyzeProfit()">Анализировать прибыль</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function analyzeProfit() {
+            //Шоколад, 1000
+            //Мармеладки, 600
+            //Шоколад, 6000
+            //Киндер-сюрприз, 1000
+            //Мармеладки, 300
+            //END
+            
+            const input = document.getElementById('salesData').value.trim();
+
+            if (!input) {
+                alert('Пожалуйста, введите данные о продажах.');
+                return;
+            }
+
+            // Удаление строки "END" и разбиение данных на строки
+            const sales = input.split('\n').filter(line => line.trim() !== 'END').map(line => line.trim());
+
+            const productProfits = {};
+
+            // Обработка каждой строки данных
+            sales.forEach(sale => {
+                const [product, profit] = sale.split(',').map(item => item.trim());
+                const profitValue = parseInt(profit);
+
+                if (!isNaN(profitValue)) {
+                    if (!productProfits[product]) {
+                        productProfits[product] = 0;
+                    }
+                    productProfits[product] += profitValue;
+                }
+            });
+
+            // Поиск товара с максимальной суммарной прибылью
+            let maxProfitProduct = '';
+            let maxProfit = -Infinity;
+
+            for (const product in productProfits) {
+                const totalProfit = productProfits[product];
+                if (totalProfit > maxProfit) {
+                    maxProfit = totalProfit;
+                    maxProfitProduct = product;
+                }
+            }
+
+            // Вывод результатов
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `${maxProfitProduct} ${maxProfit}`;
+        }
+    </script>
+</body>
+</html>

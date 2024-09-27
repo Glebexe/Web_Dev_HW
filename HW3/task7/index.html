@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ Концертов Групп</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        textarea, button {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Анализ Концертов Групп</h2>
+        <textarea id="concertData" placeholder="Введите данные о концертах, разделенные новой строкой"></textarea>
+        <button onclick="analyzeConcerts()">Анализировать концерты</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function analyzeConcerts() {
+            //Агата Кристи, 23.02.2024
+            //Веселые программисты, 19.06.2023
+            //Агата Кристи, 25.02.2023
+            //Питоняшки, 27.08.2023
+            //Питоняшки, 04.05.2023
+            //Питоняшки, 27.02.2024
+            //END
+            
+            
+            const input = document.getElementById('concertData').value.trim();
+
+            if (!input) {
+                alert('Пожалуйста, введите данные о концертах.');
+                return;
+            }
+
+            // Удаление строки "END" и разбиение данных на строки
+            const concerts = input.split('\n').filter(line => line.trim() !== 'END').map(line => line.trim());
+
+            const concertCounts = {};
+
+            // Обработка каждой строки данных
+            concerts.forEach(concert => {
+                const [group, date] = concert.split(',').map(item => item.trim());
+                const year = parseInt(date.split('.')[2]);
+
+                if (year === 2023) {
+                    if (!concertCounts[group]) {
+                        concertCounts[group] = 0;
+                    }
+                    concertCounts[group]++;
+                }
+            });
+
+            // Поиск группы с наибольшим количеством концертов
+            let maxConcertGroup = '';
+            let maxConcertCount = 0;
+
+            for (const group in concertCounts) {
+                const count = concertCounts[group];
+                if (count > maxConcertCount) {
+                    maxConcertCount = count;
+                    maxConcertGroup = group;
+                }
+            }
+
+            // Вывод результатов
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `${maxConcertGroup} ${maxConcertCount}`;
+        }
+    </script>
+</body>
+</html>

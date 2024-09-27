@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подсчет Калорийности Продуктов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input[type="text"], button {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Подсчет Калорийности Продуктов</h2>
+        <input type="text" id="productNames" placeholder="Введите названия продуктов через пробел">
+        <input type="text" id="productMacros" placeholder="Введите соответствующие данные о белках-жирах-углеводах">
+        <button onclick="calculateCalories()">Найти самый низкокалорийный продукт</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        //банан мандарин кефир курочка
+        //120-130-190 156-182-190 120-145-90 1390-129-1023
+        function calculateCalories() {
+            const namesInput = document.getElementById('productNames').value.trim();
+            const macrosInput = document.getElementById('productMacros').value.trim();
+
+            if (!namesInput || !macrosInput) {
+                alert('Пожалуйста, введите данные о продуктах и их характеристиках.');
+                return;
+            }
+
+            const productNames = namesInput.split(' ');
+            const productMacros = macrosInput.split(' ').map(macro => macro.split('-').map(Number));
+
+            if (productNames.length !== productMacros.length) {
+                alert('Количество названий продуктов и данных о них должно совпадать.');
+                return;
+            }
+
+            let minCalories = Infinity;
+            let lowestCalorieProduct = '';
+
+            productNames.forEach((name, index) => {
+                const [proteins, fats, carbs] = productMacros[index];
+                const calories = 0.4 * proteins + 0.3 * fats + 0.3 * carbs;
+
+                if (calories < minCalories) {
+                    minCalories = calories;
+                    lowestCalorieProduct = name;
+                }
+            });
+
+            document.getElementById('result').innerText = lowestCalorieProduct;
+        }
+    </script>
+</body>
+</html>

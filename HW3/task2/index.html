@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра "Угадай число"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result, .score {
+            margin-top: 20px;
+        }
+        .attempts {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Игра "Угадай число"</h2>
+        <div>
+            <input type="number" id="minValue" placeholder="Введите минимальное значение">
+            <input type="number" id="maxValue" placeholder="Введите максимальное значение">
+            <button onclick="startGame()">Начать игру</button>
+        </div>
+        <div id="gameArea" style="display: none;">
+            <input type="number" id="guessInput" placeholder="Введите вашей ответ">
+            <button onclick="makeGuess()">Угадать</button>
+            <div class="result" id="result"></div>
+            <div class="score" id="score">Баллы: 0</div>
+            <div class="attempts" id="attempts">Осталось попыток: 3</div>
+        </div>
+    </div>
+
+    <script>
+        let randomNumber, min, max, attempts, score;
+
+        function startGame() {
+            min = parseInt(document.getElementById('minValue').value);
+            max = parseInt(document.getElementById('maxValue').value);
+            if (isNaN(min) || isNaN(max) || min >= max) {
+                alert('Введите корректные значения интервала.');
+                return;
+            }
+            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            attempts = 3;
+            score = 0;
+            document.getElementById('result').innerText = '';
+            document.getElementById('score').innerText = `Баллы: ${score}`;
+            document.getElementById('attempts').innerText = `Осталось попыток: ${attempts}`;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('gameArea').style.display = 'block';
+        }
+
+        function makeGuess() {
+            const resultDiv = document.getElementById('result');
+            const guess = parseInt(document.getElementById('guessInput').value);
+            if (isNaN(guess)) {
+                resultDiv.innerText = 'Введите число для отгадывания.';
+                return;
+            }
+
+            attempts--;
+            if (guess === randomNumber) {
+                score += 10;
+                resultDiv.innerText = `Поздравляем! Вы угадали число ${randomNumber}. Новый раунд!`;
+                setTimeout(() => { startGame(); }, 2000);
+            } else if (attempts > 0) {
+                score -= 2;
+                resultDiv.innerText = guess < randomNumber ? 'Больше' : 'Меньше';
+            } else {
+                resultDiv.innerText = `Вы проиграли. Загаданное число было ${randomNumber}. Попробуйте снова!`;
+                setTimeout(() => { document.getElementById('gameArea').style.display = 'none'; }, 2000);
+            }
+
+            document.getElementById('score').innerText = `Баллы: ${score}`;
+            document.getElementById('attempts').innerText = `Осталось попыток: ${attempts}`;
+        }
+    </script>
+</body>
+</html>

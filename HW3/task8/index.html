@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск города</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Поиск города</h2>
+        <input type="text" id="cityInput" placeholder="Введите название города">
+        <button onclick="searchCity()">Проверить</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const cities = ["Москва", "Санкт-Петербург", "Саратов", "Магадан", "Ярославль", "Самара", "Якутск"];
+
+        function searchCity() {
+            const input = document.getElementById('cityInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            if (input === '') {
+                resultDiv.innerText = 'Пожалуйста, введите название города.';
+                return;
+            }
+
+            const letter = input[0].toUpperCase();
+
+            const matchingCities = cities.filter(city => city[0].toUpperCase() === letter);
+
+            if (matchingCities.length > 0) {
+                resultDiv.innerHTML = `Города, начинающиеся с буквы "${letter}": ${matchingCities.join(', ')}`;
+            } else {
+                resultDiv.innerHTML = 'Такого города нет в списке';
+            }
+        }
+    </script>
+</body>
+</html>
