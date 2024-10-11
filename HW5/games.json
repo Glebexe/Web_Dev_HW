@@ -1,0 +1,23 @@
+[
+    {
+        "title": "The Witcher 3: Wild Hunt", 
+        "rating": 9.8,
+        "release_date": "2015-05-19", 
+        "genre": "RPG",
+        "image": "https://i.playground.ru/p/3gUlVo5lEb3ruDDus85Yqg.jpeg"
+    },
+    {
+        "title": "Cyberpunk 2077",
+        "rating": 7.0,
+        "release_date": "2020-12-10",
+        "genre": "RPG",
+        "image": "https://digiseller.ru/preview/392497/p1_4233535_e56afcb7.jpeg"
+    },
+    {
+        "title": "Dark Souls III",
+        "rating": 9.0,
+        "release_date": "2016-04-12",
+        "genre": "Action RPG",
+        "image": "https://cdn.mos.cms.futurecdn.net/fCuCWQd8sFHdVQjzqZKnuE.jpg"
+    }
+]
