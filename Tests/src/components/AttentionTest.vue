@@ -1,27 +1,40 @@
 <template>
-  <div class="test-container">
-    <h2>Задание {{ currentTask }}</h2>
-    <div class="words">
-      <span
-        v-for="(word, index) in taskWords"
-        :key="index"
-        :style="{ color: word.color }"
-        class="word"
-      >
-        {{ word.text }}
-      </span>
+  <div class="attention-test" @click="handleClick">
+    <div v-if="!testStarted" class="start-screen">
+      <h2>Нажмите, чтобы начать тест</h2>
+      <p>Это тест на внимательность. Вам нужно будет выбирать из предложенных вариантов слова правильно описывающие цвет слов на экране. </p>
     </div>
-    <div class="options">
-      <button
-        v-for="(option, index) in options"
-        :key="index"
-        @click="checkAnswer(option)"
-      >
-        {{ option.join(', ') }}
-      </button>
+
+    <div v-else-if="currentTask <= totalTasks && !testCompleted">
+      <h2>Задание {{ currentTask }}</h2>
+      <div class="words">
+        <span
+          v-for="(word, index) in taskWords"
+          :key="index"
+          :style="{ color: word.color }"
+          class="word"
+        >
+          {{ word.text }}
+        </span>
+      </div>
+      <div class="options">
+        <button
+          v-for="(option, index) in options"
+          :key="index"
+          @click="checkAnswer(option)"
+        >
+          {{ option.join(', ') }}
+        </button>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" :style="{ width: progress + '%' }"></div>
+      </div>
     </div>
-    <div class="progress-bar">
-      <div class="progress" :style="{ width: progress + '%' }"></div>
+
+    <div v-if="testCompleted" class="result">
+      <h3>Тест завершен!</h3>
+      <p>Вы правильно ответили на {{ score }} из {{ totalTasks }} вопросов.</p>
+      <button @click="restartTest">Пройти тест заново</button>
     </div>
   </div>
 </template>
@@ -38,6 +51,8 @@ export default {
       correctAnswer: [],
       options: [],
       score: 0,
+      testStarted: false,
+      testCompleted: false,
     };
   },
   computed: {
@@ -46,6 +61,13 @@ export default {
     },
   },
   methods: {
+    handleClick() {
+      if (!this.testStarted) {
+        this.testStarted = true;
+        this.$emit('test-start');
+        this.generateTask();
+      }
+    },
     generateTask() {
       const wordsCount = this.currentTask;
       const words = [];
@@ -85,12 +107,17 @@ export default {
         this.currentTask++;
         this.generateTask();
       } else {
+        this.testCompleted = true;
         this.$emit('test-complete', this.score);
       }
     },
-  },
-  mounted() {
-    this.generateTask();
+    restartTest() {
+      this.currentTask = 1;
+      this.score = 0;
+      this.testCompleted = false
+      this.generateTask();
+      this.$emit('test-start');
+    },
   },
 };
 </script>
