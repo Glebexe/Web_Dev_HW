@@ -15,11 +15,6 @@
     </div>
 
     <button @click="submitAnswers" class="submit-button">Готово</button>
-
-    <div v-if="resultsVisible" class="results">
-      <p>Вы дали {{ correctAnswers }} правильных ответов из {{ rows.length }}.</p>
-      <button @click="restartTest" class="restart-button">Пройти тест заново</button>
-    </div>
   </div>
 </template>
 
@@ -34,7 +29,7 @@ export default {
     };
   },
   methods: {
-    // Генерация случайного ряда чисел
+
     generateRows() {
       this.rows = Array.from({ length: 5 }, () =>
         Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)).join("")
@@ -42,7 +37,7 @@ export default {
       this.userAnswers = Array(this.rows.length).fill(null);
       this.$emit('test-start');
     },
-    // Подсчет правильных ответов
+
     submitAnswers() {
       this.correctAnswers = this.rows.reduce((count, row, index) => {
         const correctSum = row
@@ -51,9 +46,9 @@ export default {
         return count + (this.userAnswers[index] === correctSum ? 1 : 0);
       }, 0);
       this.resultsVisible = true;
-      this.$emit('test-complete');
+      this.$emit('test-complete', this.correctAnswers, 5);
     },
-    // Сброс теста
+
     restartTest() {
       this.generateRows();
       this.resultsVisible = false;
@@ -68,6 +63,11 @@ export default {
 </script>
 
 <style>
+
+.timer{
+  display: block;
+}
+
 .sum-digits-test {
   max-width: 600px;
   margin: 0 auto;

@@ -7,7 +7,7 @@
     </div>
 
     <div v-else-if="currentQuestion <= totalQuestions && !testCompleted" class="test-container">
-      <h2>Вопрос {{ currentQuestion }}/{{ totalQuestions }}</h2>
+      <h2 class="question-count">Вопрос {{ currentQuestion }}/{{ totalQuestions }}</h2>
 
       <img :src="currentImage" alt="Вопрос о картинке" class="question-image" />
       <p>{{ currentQuestionText }}</p>
@@ -149,8 +149,14 @@ export default {
 </script>
 
 <style>
+
+.question-count{
+  position: absolute;
+  top: 90px;
+}
+
 .memory-test {
-  height: 600px;
+  height: 300px;
   max-width: 600px;
   text-align: center;
   margin-top: 100px;
@@ -162,7 +168,7 @@ export default {
 
 .question-image {
   max-width: 100%;
-  margin: 20px 0;
+  margin-top: 250px;
 }
 
 .options button {

@@ -31,9 +31,10 @@ export default {
   data() {
     return {
       text: `клодфитренмстоловоапряглицетыпошлидровоставракосылимонедпрыгаютвребелокречьщедорогакапустаквартирымыркодчебылкитюленувлесузебраскидаюхолстореворыпалкаочагпрокартайлебедяжукстарыйовражекореньдроваимеломшапканоркастихлосолнцезвенитшансгрибоклепестокпартастеклопосудажучокдверьлупень`,
-      words: ["белок","стол","прыгают","капуста","лимон","квартиры","дорога","код","кит","лес","зебра","палка","очаг","жук","овраг", "дрова","шапка","норка","солнце", "гриб", "парта","жучок", "дверь"],
+      words: ["белок", "стол", "прыгают", "капуста", "лимон", "квартиры", "дорога", "код", "кит", "лес", "зебра",
+              "палка", "очаг", "жук", "овраг", "дрова", "шапка", "норка", "солнце", "гриб", "парта", "жучок", "дверь"],
       selectedWords: [],
-      totalWords: 23, // общее количество слов
+      totalWords: 23,
       showResults: false,
       testStarted: false
     };
@@ -44,27 +45,35 @@ export default {
         this.$emit('test-start');
         this.testStarted = true
       }
+      console.log(window.getSelection())
+      console.log(window.getSelection().anchorOffset)
+      console.log(window.getSelection().focusOffset)
       const selection = window.getSelection().toString().trim();
       if (selection && !this.selectedWords.includes(selection) && this.words.includes(selection)) {
         this.selectedWords.push(selection);
       }
-      console.log(selection.charAt(0),selection.charAt(-1))
+
       if (selection.charAt(0) === "[" && selection.charAt(selection.length-1) === "]" ){
-        this.text = this.text.replaceAll(selection, selection.slice(1, selection.length-1))
+        this.text = this.text.replace(selection, selection.slice(1, selection.length-1))
       }
       else {
-        this.text = this.text.replaceAll(selection, "[" + selection + "]")
+        let firstInsertion = this.text.slice(0, window.getSelection().anchorOffset) + '[' + this.text.slice(window.getSelection().anchorOffset);
+        let adjustedIndex2 = window.getSelection().focusOffset + 1;
+        this.text = firstInsertion.slice(0, adjustedIndex2) + ']' + firstInsertion.slice(adjustedIndex2);
       }
     },
     finishTest() {
       this.showResults = true;
-      this.$emit('test-complete');
+      this.$emit('test-complete', this.selectedWords.length, this.totalWords);
     },
     restartTest() {
       this.selectedWords = [];
       this.showResults = false;
       this.$emit('test-start');
     },
+  },
+  mounted() {
+    this.$emit('test-start');
   },
 };
 </script>

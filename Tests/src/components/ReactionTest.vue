@@ -82,6 +82,10 @@ export default {
 </script>
 
 <style>
+.timer{
+  display: none;
+}
+
 .test-container {
   display: flex;
   flex-direction: column;
